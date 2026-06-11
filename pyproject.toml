@@ -1,0 +1,12 @@
+[project]
+name = "semurai-release"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp==2.14.7",
+    "ghidra-bridge==1.0.0",
+    "lief==0.17.6",
+    "qiling==1.4.6",
+]

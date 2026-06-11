@@ -1,0 +1,4 @@
+.claude
+.venv/
+*.swp
+__pycache__/
