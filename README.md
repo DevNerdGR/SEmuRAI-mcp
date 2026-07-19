@@ -37,7 +37,7 @@ SEmuRAI is intended to be used alongside a static analysis toolkit (in particula
 
 1. In your chosen installation directory, run `git clone --recurse-submodules https://github.com/DevNerdGR/SEmuRAI-mcp.git` to install the project and the [required submodule (Qiling root FS)](https://github.com/qilingframework/rootfs)
 2. `cd` into the project directory and run `uv sync` to install required packages
-3. Add the MCP server to your MCP client. 
+3. Add the MCP server to your MCP client
     <details>
     <summary>Example for Claude Desktop</summary>
     
@@ -62,6 +62,13 @@ For SEmuRAI to function effectively, the following should also be installed:
 - Ghidra Bridge (https://github.com/justfoxing/ghidra_bridge)
 
 Note: ensure that the binary of interest is loaded in Ghidra and that the Ghidra Bridge server is running whenever you are using SEmuRAI.
+
+### Emulating Windows PE binaries
+To emulate Windows PE binaries, Qiling requires a [Windows root FS with Microsoft Windows DLLs and registries](https://docs.qiling.io/en/latest/install/#important-note-on-windows-dlls-and-registry) present. These files cannot be distributed due to legal restrictions, and they have to be obtained from your system. 
+
+#### Steps
+1. Open a terminal **as administrator** (required for registry export) in the project root directory (`.../SEmuRAI-mcp/`)
+2. Run `dllscollector.bat`
 
 ## Usage
 SEmuRAI provides a system prompt template for initialising analysis workflows. The prompt assigns a role to the agent, defines tool usage, outlines security guardrails and specifies expected agent behaviour. It also allows you to enter the path to the target binary (required to set up emulation) and any additional instructions or context specific to the task. It is recommended that you initiate an analysis session by using this prompt.
