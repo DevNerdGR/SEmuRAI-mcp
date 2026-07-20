@@ -1,20 +1,42 @@
 from __future__ import annotations
 """
-Makes use of Qiling emulaton framework
+Uses Qiling emulaton framework
 """
 from qiling import Qiling
 from qiling.extensions import pipe
 import lief
 from lief import Binary
 import os
+import shutil
+import gc
+
+def _stage_binary(pathToBinary: str, rootfs_abs: str) -> str:
+    """
+    Clears <rootfs_abs>/temp_stage/, copies pathToBinary into it,
+    and returns the staged absolute path.
+    """
+    stage_dir = os.path.join(rootfs_abs, "temp_stage")
+
+    # clear
+    if os.path.exists(stage_dir):
+        shutil.rmtree(stage_dir)
+    os.makedirs(stage_dir)
+
+    # stage
+    basename = os.path.basename(pathToBinary)
+    staged_path = os.path.join(stage_dir, basename)
+    shutil.copy2(pathToBinary, staged_path)
+
+    return staged_path
+
 
 class RootFS:
-    _base = "/Resources/QilingRootFsTemplates/"
-    x8664_linux_rootFS = _base + "x8664_linux_glibc2.39/"
-    arm_linux_rootFS = _base + "arm_linux/"
-    arm64_linux_rootFS = _base + "arm64_linux/"
-    x8664_windows_rootFS = _base + "x8664_windows/"
-    x8664_macos_rootFS = _base + "x8664_macos/"
+    _base = "Resources/QilingRootFsTemplates"
+    x8664_linux_rootFS = os.path.join(_base, "x8664_linux_glibc2.39")
+    arm_linux_rootFS   = os.path.join(_base, "arm_linux")
+    arm64_linux_rootFS = os.path.join(_base, "arm64_linux")
+    x8664_windows_rootFS = os.path.join(_base, "x8664_windows")
+    x8664_macos_rootFS   = os.path.join(_base, "x8664_macos")
 
 
 class QilingSession:
@@ -52,11 +74,17 @@ class QilingSession:
         else:
             raise ValueError(f"Binary format unknown/unsupported: {pathToBinary}")
         
+        self.ql = None
+        gc.collect()
+
+        rootfs_abs = os.path.join(os.path.dirname(os.path.abspath(__file__)), rfs)
+        staged_path = _stage_binary(pathToBinary, rootfs_abs)
 
         self.ql = Qiling(
-            [pathToBinary] + args,
-            rootfs=os.path.dirname(os.path.abspath(__file__)) + rfs
+            [staged_path] + args,
+            rootfs=rootfs_abs
         )
+        
         self.ghidraBase = ghidraBaseAddr
         self.hookedAddrs = dict()
         self.outStream = pipe.SimpleOutStream(0)
