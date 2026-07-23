@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-[![Demo Video](https://img.shields.io/badge/Watch-BHUSA26%20Arsenal%20Video-red.svg)](https://devnerdgr.com/assets/blackhat/SEmuRAI-demo-video.mp4) [![Paper](https://img.shields.io/badge/Read-Project%20report-blue.svg)](https://devnerdgr.com/assets/SEmuRAI%20Report.pdf)
+[![Demo Video](https://img.shields.io/badge/Watch-BHUSA26%20Arsenal%20Video-red.svg)](https://www.youtube.com/watch?v=oCMJSJx7R-M) [![Paper](https://img.shields.io/badge/Read-Project%20report-blue.svg)](https://devnerdgr.com/assets/SEmuRAI%20Report.pdf)
 
 *MCP server enabling LLMs to perform **dynamic binary analysis** for software reverse engineering purposes.* 
 
